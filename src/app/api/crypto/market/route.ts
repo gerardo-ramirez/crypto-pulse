@@ -1,6 +1,6 @@
 import {NextResponse} from 'next/server';
 
-
+export const dynamic = 'force-dynamic'
 export async function GET(){
     const baseUrl = process.env.COINGECKO_BASE_URL;
 const url = `${baseUrl}/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=12&page=1`;
