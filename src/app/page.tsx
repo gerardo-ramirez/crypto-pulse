@@ -34,6 +34,17 @@ export default function Home() {
 
       <footer className="mx-auto w-full max-w-7xl border-t border-slate-200/40 px-6 py-8 text-center text-xs font-medium text-slate-400 sm:px-12">
         &copy; {new Date().getFullYear()} CryptoPulse Engineering. Todos los derechos reservados.
+        <span className="mx-1.5" aria-hidden="true">·</span>
+        desarrollado por{" "}
+        <a
+          href="https://gramirez.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Portafolio de Gerardo Ramirez (abre en nueva pestaña)"
+          className="text-slate-500 underline-offset-2 transition-colors hover:text-slate-700 hover:underline"
+        >
+          Gerardo Ramirez&nbsp;↗
+        </a>
       </footer>
     </div>
   )

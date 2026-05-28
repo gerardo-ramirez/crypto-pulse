@@ -1,23 +1,26 @@
 
 import { CoinGeckoMarketResponse } from "../models/api-types";
+import mockData from "./crypto-mock.json"
 
-const URL = "/api/crypto/market";
+const MARKET_URL = "/api/crypto/market";
 
-export const getMarketFeed =async():Promise<CoinGeckoMarketResponse[]>=>{
-    try{
-   const res= await fetch(URL);
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
 
-   if(!res.ok){
-    throw new Error(`Fallo en la API de mercado: ${res.status}`);
-   }
-   const data: CoinGeckoMarketResponse[]= await res.json()
-
-   return data 
-    }catch (error) {
-
-console.error("[Service Error] getMarketFeed:", error);
-    throw error;
+export const getMarketFeed = async (useRealApi: boolean = false): Promise<CoinGeckoMarketResponse[]> => {
+  try {
+    if (!useRealApi) {
+      await delay(1200)
+      return mockData as CoinGeckoMarketResponse[]
     }
-   
+
+    const res = await fetch(MARKET_URL)
+    if (!res.ok) {
+      throw new Error(`Fallo en la API de mercado: ${res.status}`)
+    }
+    return await res.json() as CoinGeckoMarketResponse[]
+  } catch (error) {
+    console.error("[Service Error] getMarketFeed:", error)
+    throw error
+  }
 }
 

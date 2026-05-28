@@ -1,18 +1,28 @@
 import { useQuery } from "@tanstack/react-query"
-import { getMarketFeed } from "../domain/services/getMarketFeed.service"
+import { useCallback, useState } from "react"
 import { adaptMarketFeed } from "../adapters/market-feed.adapter"
+import { getMarketFeed } from "../domain/services/getMarketFeed.service"
 
 export const useMarketFeed = () => {
-  return useQuery({
-    queryKey: ["crypto", "market-feed"],
+  const [useRealApi, setUseRealApi] = useState(false)
+
+  const query = useQuery({
+    queryKey: ["crypto", "market-feed", useRealApi],
     queryFn: async () => {
-      const data = await getMarketFeed()
+      const data = await getMarketFeed(useRealApi)
       return adaptMarketFeed(data)
     },
     staleTime: Infinity,
-   // staleTime: 0,
-    // Production: refetchInterval: 20_000 (polling cada 20 s)
-    // Demo: deshabilitado para respetar el rate limit de la API gratuita de CoinGecko.
     refetchOnWindowFocus: false,
   })
+
+  const enableRealApi = useCallback(() => {
+    setUseRealApi(true)
+  }, [])
+
+  return {
+    ...query,
+    useRealApi,
+    enableRealApi,
+  }
 }
